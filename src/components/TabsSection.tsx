@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AssetCard from './AssetCard';
 import BuyModal from './BuyModal';
 
@@ -149,7 +148,16 @@ const mockAssets = {
   ]
 };
 
-const TabsSection: React.FC = () => {
+// Get all assets in a flat array
+const getAllAssets = () => {
+  return [
+    ...mockAssets['Real Estate'],
+    ...mockAssets['Commodities'],
+    ...mockAssets['Invoices']
+  ];
+};
+
+const TabsSection: React.FC<{ isMarketplacePage?: boolean }> = ({ isMarketplacePage = false }) => {
   const [activeTab, setActiveTab] = useState(assetTypes[0]);
   const [selectedAsset, setSelectedAsset] = useState<any>(null);
   const [showBuyModal, setShowBuyModal] = useState(false);
@@ -163,49 +171,65 @@ const TabsSection: React.FC = () => {
     setShowBuyModal(false);
   };
 
+  // Use different display based on whether this is the marketplace page or landing page
+  const assetsToDisplay = isMarketplacePage
+    ? mockAssets[activeTab as keyof typeof mockAssets]
+    : getAllAssets();
+
   return (
-    <section className="py-20 bg-marketplace-gray" id="marketplace">
+    <section className="py-20 bg-marketplace-darkGray" id="marketplace">
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Browse Tokenized Assets</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Browse Tokenized Assets</h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Discover and invest in a diverse range of tokenized real-world assets across multiple categories
           </p>
         </div>
 
-        <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
-          <div className="flex justify-center mb-8">
-            <TabsList className="bg-white shadow-md">
-              {assetTypes.map((type) => (
-                <TabsTrigger 
-                  key={type} 
-                  value={type}
-                  className={
-                    activeTab === type 
-                      ? "data-[state=active]:bg-marketplace-blue data-[state=active]:text-white"
-                      : ""
-                  }
-                >
-                  {type}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-
-          {assetTypes.map((type) => (
-            <TabsContent key={type} value={type} className="focus-visible:outline-none focus-visible:ring-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {mockAssets[type as keyof typeof mockAssets].map((asset) => (
-                  <AssetCard 
-                    key={asset.id}
-                    asset={asset}
-                    onBuyClick={() => handleBuyClick(asset)}
-                  />
+        {isMarketplacePage ? (
+          // Marketplace page with tabs
+          <>
+            <div className="flex justify-center mb-8">
+              <div className="bg-marketplace-gray shadow-md inline-flex rounded-md p-1">
+                {assetTypes.map((type) => (
+                  <button 
+                    key={type} 
+                    className={`px-4 py-2 text-sm font-medium rounded-md ${
+                      activeTab === type 
+                        ? "bg-marketplace-blue text-white" 
+                        : "text-gray-300 hover:text-white"
+                    }`}
+                    onClick={() => setActiveTab(type)}
+                  >
+                    {type}
+                  </button>
                 ))}
               </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {mockAssets[activeTab as keyof typeof mockAssets].map((asset) => (
+                <AssetCard 
+                  key={asset.id}
+                  asset={asset}
+                  onBuyClick={() => handleBuyClick(asset)}
+                  showBuy={true}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          // Landing page with all assets (no tabs, no buy button)
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {assetsToDisplay.map((asset) => (
+              <AssetCard 
+                key={asset.id}
+                asset={asset}
+                onBuyClick={() => {}}
+                showBuy={false}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {showBuyModal && selectedAsset && (
