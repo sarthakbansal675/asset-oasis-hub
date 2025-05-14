@@ -28,24 +28,24 @@ const features = [
 
 const Features: React.FC = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-900">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Our RWA Marketplace</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Why Choose Our RWA Marketplace</h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Bridging traditional finance with blockchain technology to democratize access to premium real-world assets
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
-            <Card key={index} className="border bg-white shadow-sm">
+            <Card key={index} className="border border-blue-900/20 bg-gray-800 shadow-lg">
               <CardContent className="pt-6">
-                <div className="mb-4 rounded-full bg-marketplace-lightBlue p-2.5 w-12 h-12 flex items-center justify-center">
-                  <feature.icon className="h-6 w-6 text-marketplace-blue" />
+                <div className="mb-4 rounded-full bg-blue-900/30 p-2.5 w-12 h-12 flex items-center justify-center">
+                  <feature.icon className="h-6 w-6 text-blue-400" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-2 text-white">{feature.title}</h3>
+                <p className="text-gray-300">{feature.description}</p>
               </CardContent>
             </Card>
           ))}
