@@ -40,23 +40,6 @@ const Hero: React.FC = () => {
               Learn More
             </Button>
           </div>
-          
-          <div className="flex items-center gap-8 mt-12">
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-blue-400">$1.2B+</span>
-              <span className="text-sm text-gray-300">Assets Tokenized</span>
-            </div>
-            <div className="h-10 w-px bg-gray-700"></div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-blue-400">12,000+</span>
-              <span className="text-sm text-gray-300">Global Investors</span>
-            </div>
-            <div className="h-10 w-px bg-gray-700"></div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold text-blue-400">200+</span>
-              <span className="text-sm text-gray-300">Listed Assets</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
